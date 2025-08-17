@@ -1,9 +1,12 @@
-﻿@{
+﻿@model string 
+@* desde el controller a esta vista como string *@
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Soy David</h1>
+    <h1 class="display-4">Soy @Model @ViewBag.Nombre. Edad: @ViewBag.Edad</h1>
+   @*  el Model (en mayuscula) sirve para accder al valor del modelo *@
     <h2>Soy un desarrollador full stack especializado en tecnologías .NET y JavaScript.</h2>
     <img
         id="foto"

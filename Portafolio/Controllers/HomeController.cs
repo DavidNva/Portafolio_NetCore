@@ -15,8 +15,19 @@ namespace Portafolio.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            //ViewBag.Nombre = "David 10";
+            ViewBag.Edad = 16;
+            return View("Index", "David NG");
+
         }
+
+        //public IActionResult Index()
+        //{
+        //    //ViewBag.Nombre = "David 10";
+        //    ViewBag.Edad = 16;
+        //    return View("Index","David NG");//Este segundo valor seria el del Model, para acceder desde la vista, pero ahora tipado, en este caso funciona porque es solo un valor que estamos pasando, pero si queremos pasar de igual forma la edad o demas campos tipados, en este caso edad seria de tipo int, tenemos que realizar una clase. 
+
+        //}
 
         public IActionResult Privacy()
         {
