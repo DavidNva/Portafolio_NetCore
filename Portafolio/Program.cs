@@ -22,7 +22,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Home}/{action=Index}/{id?}")//El signo ? en id indica que es opcional (el ultimo campon id es opcional)
     .WithStaticAssets();
 
 
