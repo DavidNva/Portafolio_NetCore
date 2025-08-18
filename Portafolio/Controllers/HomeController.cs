@@ -15,12 +15,12 @@ namespace Portafolio.Controllers
 
         public IActionResult Index()
         {
-            Persona persona = new Persona();
-            persona.Nombre = "David Garcia";
-            persona.Edad = 11;
-            //return View("Index" persona);
-            return View(persona);//Ahora ya no es necesario indicar manualmente index
+            return View();
+        }
 
+        public IActionResult Privacy()
+        {
+            return View();
         }
 
         //public IActionResult Index()
@@ -30,11 +30,6 @@ namespace Portafolio.Controllers
         //    return View("Index","David NG");//Este segundo valor seria el del Model, para acceder desde la vista, pero ahora tipado, en este caso funciona porque es solo un valor que estamos pasando, pero si queremos pasar de igual forma la edad o demas campos tipados, en este caso edad seria de tipo int, tenemos que realizar una clase. 
 
         //}
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

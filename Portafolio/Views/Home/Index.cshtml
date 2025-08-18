@@ -1,50 +1,68 @@
-﻿@model Persona 
-@* desde el controller a esta vista como string *@
-@{
-    // dentro de aqui yo puedo colocar codigo de c#, en teoria estariamos usando razor
-    ViewData["Title"] = "Página Principal";
-    string ConvertirEnMayusculas(string valor)
-    {
-        return valor.ToUpper() + " DDD";
-    }
-
-    DateTime hoy = DateTime.Now;//Podemos crear variablees, comentar como en c#, etc.
-
-    var nombres = new List<string>() { "Carlos", "Juan","Pedro","Laura" };
+﻿@{
+    ViewData["Title"] = "Home Page";
 }
 
-
 <div class="text-center">
-
-    @foreach (var nombre in nombres)
-    {
-        <ul>@nombre</ul>
-        //cada ves que usemos razor, usaremos el @ de esta forma funciona como si usaramos c# 
-    }
-    
-    @*  en este caso, como el model Persona, es una clase con tipo de datos, en este caso string para nombre e int para edad. 
-    y ademas identificadores de estos, si comentemos un error de sintaxtis, 
-    por ejemplo en lguar de colocar Nombre colocamos Nombres, nos marcaria error de sintaxis.*@
-    <h1 class="display-4">Soy @Model.Nombre  Edad: (@Model.Edad)</h1>
-    <h1 class="display-4">Soy @Model.Nombre.ToUpper()  Edad: (@Model.Edad)</h1>
-    @*     este es un ejemplo usando en teoria la funciona que acabamos de declarar arriba*@
-    <h1 class="display-4">Soy @ConvertirEnMayusculas(@Model.Nombre)  Edad: (@Model.Edad)</h1> 
-
-    <h4>Hoy:  @hoy.ToString()</h4>
-
-    @* MAS EJEMPLOS USANDO FUNCIONALDIADES DENTRO DE LA VISTA CON CODIGO C# *@
-    @if (Model.Edad >= 18)
-    {
-        <h4>Eres mayor de edad, puedes pasar <button>Entrar</button> </h4>
-    }
-    else
-    {
-        <h4>Eres menor de edad, no puedes pasar</h4>
-    }
-
-   @*  el Model (en mayuscula) sirve para accder al valor del modelo *@
+    <h1 class="display-4">Soy David</h1>
     <h2>Soy un desarrollador full stack especializado en tecnologías .NET y JavaScript.</h2>
     <img
         id="foto"
         class="img-fluid" src="~/imagenes/pikachudev.jpg" alt="Foto de David"/>
+
+
+</div>
+
+<div class="text-center">
+    <img id="imagen-dotnet" src="~/imagenes/dotnet-imagen-2.png" alt="dotnet-logo" />
+</div>
+
+<div class="row justify-content-center text-center bg-primary">
+    <div class="col col-md-7 seccion-bienvenida">
+        <h1>Te doy la bienvenida a mi portafolio</h1>
+        <p>
+            Desarrollador de software con más de 1.5 años de experiencia profesional especializado en tecnologías .NET, C# y desarrollo
+            de aplicaciones web empresariales. He trabajado en proyectos web, de escritorio y de consola, integrando inteligencia
+            artificial y automatización de procesos. Me caracterizo por mi capacidad de adaptación rápida, trabajo en equipo y mi
+            enfoque en crear soluciones eficientes que generen valor real para el negocio.
+
+        </p>
+    </div>
+</div>
+
+<div style="margin-top: -105px">
+    <div class="row justify-content-md-center text-center">
+        <div class="col col-3 bg-white habilidades" style="border-radius: 15px 0 0 15px; box-shadow: 0 5px 5px 0 gray;">
+            <i class="bi bi-hdd-fill"></i>
+            <h3>Backend</h3>
+            <p>Trabajo desde el desarrollo, pruebas automáticas y puesta en producción con entrega continua.</p>
+            <p class="text-primary cabecera">Stack;</p>
+            <p>ASP.NET Core, SQL Server</p>
+            <p class="text-primary cabecera">Experiencia:</p>
+            <ul>
+                <li>Web APIs</li>
+                <li>ASP.NET CORE MVC</li>
+                <li>Entity Framework Core</li>
+                <li>Blazor</li>
+                <li>Dapper</li>
+                <li>Queries especiales</li>
+                <li>Principios SOLID</li>
+            </ul>
+        </div>
+        <div class="col col-3 bg-white habilidades" style="border-radius: 0px 15px 15px 0; box-shadow: 0 5px 5px 0 gray;">
+            <i class="bi bi-code-slash"></i>
+            <h3>Frontend</h3>
+            <p>Creación de front-ends robustos los cuales cumplen con los requerimientos del negocio</p>
+            <p class="text-primary cabecera">Stack;</p>
+            <p>React, Blazor</p>
+            <p class="text-primary cabecera">Experiencia:</p>
+            <ul>
+                <li>React Hooks</li>
+                <li>Blazor WASM</li>
+                <li>jQuery</li>
+                <li>Pruebas Automáticas</li>
+                <li>Leaflet</li>
+                <li>Markdown</li>
+            </ul>
+        </div>
+    </div>
 </div>
