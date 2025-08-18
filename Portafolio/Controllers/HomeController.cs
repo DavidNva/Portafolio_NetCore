@@ -1,7 +1,7 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Portafolio.Models;
 using Portafolio.Servicios;
+using System.Diagnostics;
 
 namespace Portafolio.Controllers
 {
@@ -10,25 +10,68 @@ namespace Portafolio.Controllers
         private readonly ILogger<HomeController> _logger;
         //private readonly RepositorioProyectos repositorioProyectos;
         private readonly IRepositorioProyectos repositorioProyectos;//A simple vista pareciera que no cambio nada el usar inyeccion de depdencias solo con repositorio directamente a la clase que usar Inyeccion de dependencias con interfaces
+        private readonly ServicioTransitorio servicioTransitorio;
+        private readonly ServicioDelimitado servicioDelimitado;
+        private readonly ServicioUnico servicioUnico;
+
+        private readonly ServicioTransitorio servicioTransitorio2;
+        private readonly ServicioDelimitado servicioDelimitado2;
+        private readonly ServicioUnico servicioUnico2;
+
         //Pero internatemente debemos enteder que ahora el controller no sabe que clases, no se preocupa por que clases estan usandose  o que directamente usara RepositorioProyectos.cs, sino que simplemente sabe que usa IRepositorioProyectos, ya esa es la que se encarga de orquestar que se esta usando.
         //Esto da una flexibilidad increible, porque si mañana yo creo otro reporitorio proyectos (que ahora si trabaje o se conecte a una base de datos), simplemente creamos dicha clase y  y simplemente hacemos referencia a dicha en Program.cs y con eso HomeController recibirá esa nueva instancia que una clase implementa la interfaz IRepositoryProyectos
         //Esto se llama principio de inversion de dependencias.
         //Ahora, de esta forma, las clases como HomeController no depende de otras clases sino que depende de tipos abstractos como clases abstractas o interfaces en nuestro caso. Esto permite la flexibilidad de poder cambiar en tiempo de ejecucion la implementacion en app programa en services
 
-        public HomeController(ILogger<HomeController> logger, IRepositorioProyectos repositorioProyectos)
+        public HomeController(ILogger<HomeController> logger,
+            IRepositorioProyectos repositorioProyectos,
+            ServicioTransitorio servicioTransitorio,
+            ServicioDelimitado servicioDelimitado,
+            ServicioUnico servicioUnico,
+
+            ServicioTransitorio servicioTransitorio2,
+            ServicioDelimitado servicioDelimitado2,
+            ServicioUnico servicioUnico2
+            )
         {
             _logger = logger;
             this.repositorioProyectos = repositorioProyectos;
+            this.servicioTransitorio = servicioTransitorio;
+            this.servicioDelimitado = servicioDelimitado;
+            this.servicioUnico = servicioUnico;
+
+            this.servicioTransitorio2 = servicioTransitorio2;
+            this.servicioDelimitado2 = servicioDelimitado2;
+            this.servicioUnico2 = servicioUnico2;
         }
 
         public IActionResult Index()
         {
             var proyectos = repositorioProyectos.ObtenerProyectos().Take(3).ToList();
-            var modelo = new HomeIndexViewModel() { Proyectos = proyectos };
+            var guidViewModel = new EjemploGuidViewModel()
+            {
+                Transitorio = servicioTransitorio.ObtenerGuid,
+                Delimitado = servicioDelimitado.ObtenerGuid,
+                Unico = servicioUnico.ObtenerGuid
+
+            };
+            var guidViewModel2 = new EjemploGuidViewModel()
+            {
+                Transitorio = servicioTransitorio2.ObtenerGuid,
+                Delimitado = servicioDelimitado.ObtenerGuid,
+                Unico = servicioUnico2.ObtenerGuid
+
+            };
+            var modelo = new HomeIndexViewModel()
+            {
+                Proyectos = proyectos,
+                EjemploGuid_1 = guidViewModel,
+                EjemploGuid_2 = guidViewModel2
+            };
             return View(modelo);
         }
-        
-        
+
+
         public IActionResult Privacy()
         {
             return View();

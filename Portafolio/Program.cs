@@ -11,11 +11,17 @@ builder.Services.AddControllersWithViews();
 //Hay 3 tipos de servicios, los Transient,Scoped Y Singleton
 //Transient (Transitorio) son los servicios que piden por menos tiempo, sirve para una nueva instancia del servicio
 //Scoped (Delimitado) son servicios cuyo tiempo de vida vive delimitado por una peticion http
-//Singleton (Unico) son servicios que viven por mas tiempo, de hecho viven para siempre, solamente se renueva si la aplicacion es reiniciada. Es decir siempre sera la misma instancia del servicio, incluso en peticiones http distintas.
-//Un criterio para decidir el tiempo de vidad de nuestros servicios es si necesitan compartir datos entre distintas instancias del servicio, por ejemplo, nuestro servicio de IRepositorioProyectos no necesita compartir datos entre distintas instancias del servicio, por lo tanto utilizamos Transient, si necesitaramos compartir datos con otras instancias, digamos de otras peticiones http, utilizariamos AddSingleton, y si necesitaramos compartir datos pero soloamente dentro de la misma peticion http, usariamos AddScoped
+//Singleton (Único) son servicios que viven por mas tiempo, de hecho viven para siempre, solamente se renueva si la aplicacion es reiniciada. Es decir siempre sera la misma instancia del servicio, incluso en peticiones http distintas.
+//Un criterio para decidir el tiempo de vidad de nuestros servicios es si necesitan compartir datos entre distintas instancias del servicio, por ejemplo, nuestro servicio de IRepositorioProyectos no necesita compartir datos entre distintas instancias del servicio, por lo tanto utilizamos Transient, si necesitaramos compartir datos con otras instancias, digamos de otras peticiones http, utilizariamos AddSingleton, y si necesitaramos compartir datos pero soloamente dentro de la misma peticion http, usariamos AddScoped.
+
 builder.Services.AddTransient<IRepositorioProyectos, RepositorioProyectos>();
 //Ahora tiene dos parametros, que estamos diciendo con esto:
 //Que cuando una clase como HomeController pida una intancia de IRepositorioProyectos se le envie una instancia de RepositorioProyectos()
+
+builder.Services.AddTransient<ServicioTransitorio>();
+builder.Services.AddScoped<ServicioDelimitado>();
+builder.Services.AddSingleton<ServicioUnico>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
