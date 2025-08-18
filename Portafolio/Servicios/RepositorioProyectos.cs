@@ -2,7 +2,12 @@
 
 namespace Portafolio.Servicios
 {
-    public class RepositorioProyectos
+    public interface IRepositorioProyectos
+    {
+        List<Proyecto> ObtenerProyectos();
+    }
+
+    public class RepositorioProyectos: IRepositorioProyectos
     {
         //Una clase repositorio, mayormente se encarga de servir datos.
         //Ejemplo se conecta a una base de datos para obtener informacion de la misma

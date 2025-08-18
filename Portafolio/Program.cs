@@ -4,8 +4,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddTransient<RepositorioProyectos>();//Con esto ya esta configurado en la inyeccion de dependencias
-
+//Con esto ya esta configurado en la inyeccion de dependencias
+builder.Services.AddTransient<IRepositorioProyectos, RepositorioProyectos>();
+//Ahora tiene dos parametros, que estamos diciendo con esto:
+//Que cuando una clase como HomeController pida una intancia de IRepositorioProyectos se le envie una instancia de RepositorioProyectos()
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
