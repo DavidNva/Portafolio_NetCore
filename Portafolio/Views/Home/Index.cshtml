@@ -1,4 +1,6 @@
-﻿@{
+﻿@model HomeIndexViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -11,3 +13,4 @@ por distintas vistas de diferentes controller, (como por ejemplo _Layout), enton
   *@
 
 <partial name="_Habilidades" />
+<partial name="_SeccionProyectos" model="Model.Proyectos"/>
