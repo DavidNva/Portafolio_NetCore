@@ -8,66 +8,19 @@ namespace Portafolio.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        //private readonly RepositorioProyectos repositorioProyectos;
-        private readonly IRepositorioProyectos repositorioProyectos;//A simple vista pareciera que no cambio nada el usar inyeccion de depdencias solo con repositorio directamente a la clase que usar Inyeccion de dependencias con interfaces
-        private readonly ServicioTransitorio servicioTransitorio;
-        private readonly ServicioDelimitado servicioDelimitado;
-        private readonly ServicioUnico servicioUnico;
+        //private readonly RepositorioProyectos repositorioProyectos;//Inyeccion de dependencias sin interfaces
+        private readonly IRepositorioProyectos repositorioProyectos;//Inyección de dependencias con interfaces
 
-        private readonly ServicioTransitorio servicioTransitorio2;
-        private readonly ServicioDelimitado servicioDelimitado2;
-        private readonly ServicioUnico servicioUnico2;
-
-        //Pero internatemente debemos enteder que ahora el controller no sabe que clases, no se preocupa por que clases estan usandose  o que directamente usara RepositorioProyectos.cs, sino que simplemente sabe que usa IRepositorioProyectos, ya esa es la que se encarga de orquestar que se esta usando.
-        //Esto da una flexibilidad increible, porque si mañana yo creo otro reporitorio proyectos (que ahora si trabaje o se conecte a una base de datos), simplemente creamos dicha clase y  y simplemente hacemos referencia a dicha en Program.cs y con eso HomeController recibirá esa nueva instancia que una clase implementa la interfaz IRepositoryProyectos
-        //Esto se llama principio de inversion de dependencias.
-        //Ahora, de esta forma, las clases como HomeController no depende de otras clases sino que depende de tipos abstractos como clases abstractas o interfaces en nuestro caso. Esto permite la flexibilidad de poder cambiar en tiempo de ejecucion la implementacion en app programa en services
-
-        public HomeController(ILogger<HomeController> logger,
-            IRepositorioProyectos repositorioProyectos,
-            ServicioTransitorio servicioTransitorio,
-            ServicioDelimitado servicioDelimitado,
-            ServicioUnico servicioUnico,
-
-            ServicioTransitorio servicioTransitorio2,
-            ServicioDelimitado servicioDelimitado2,
-            ServicioUnico servicioUnico2
-            )
+        public HomeController(ILogger<HomeController> logger, IRepositorioProyectos repositorioProyectos)
         {
             _logger = logger;
             this.repositorioProyectos = repositorioProyectos;
-            this.servicioTransitorio = servicioTransitorio;
-            this.servicioDelimitado = servicioDelimitado;
-            this.servicioUnico = servicioUnico;
-
-            this.servicioTransitorio2 = servicioTransitorio2;
-            this.servicioDelimitado2 = servicioDelimitado2;
-            this.servicioUnico2 = servicioUnico2;
         }
 
         public IActionResult Index()
         {
             var proyectos = repositorioProyectos.ObtenerProyectos().Take(3).ToList();
-            var guidViewModel = new EjemploGuidViewModel()
-            {
-                Transitorio = servicioTransitorio.ObtenerGuid,
-                Delimitado = servicioDelimitado.ObtenerGuid,
-                Unico = servicioUnico.ObtenerGuid
-
-            };
-            var guidViewModel2 = new EjemploGuidViewModel()
-            {
-                Transitorio = servicioTransitorio2.ObtenerGuid,
-                Delimitado = servicioDelimitado.ObtenerGuid,
-                Unico = servicioUnico2.ObtenerGuid
-
-            };
-            var modelo = new HomeIndexViewModel()
-            {
-                Proyectos = proyectos,
-                EjemploGuid_1 = guidViewModel,
-                EjemploGuid_2 = guidViewModel2
-            };
+            var modelo = new HomeIndexViewModel() { Proyectos = proyectos };
             return View(modelo);
         }
 
@@ -77,13 +30,6 @@ namespace Portafolio.Controllers
             return View();
         }
 
-        //public IActionResult Index()
-        //{
-        //    //ViewBag.Nombre = "David 10";
-        //    ViewBag.Edad = 16;
-        //    return View("Index","David NG");//Este segundo valor seria el del Model, para acceder desde la vista, pero ahora tipado, en este caso funciona porque es solo un valor que estamos pasando, pero si queremos pasar de igual forma la edad o demas campos tipados, en este caso edad seria de tipo int, tenemos que realizar una clase. 
-
-        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -93,5 +39,30 @@ namespace Portafolio.Controllers
     }
 }
 
-//una interfaz es como un contrato que nos obliga a implementar ciertos metodos de una clase
-//podemos utilizar inyeccion de dependencias con esas interfaces para asi poder tener flexibilidad en que clases servidas a traves de la inyeccion de dependencias
+//NOTAS SOBRE INYECCION DE DEPENDENCIAS CON INTERFACES
+
+//using System.Diagnostics;
+
+//namespace Portafolio.Controllers
+//{
+//    public class HomeController : Controller
+//    {
+//        private readonly ILogger<HomeController> _logger;
+//        //private readonly RepositorioProyectos repositorioProyectos;//Asi estaba inicialmente con inyeccion de dependencias sin interfaces, donde estaba atado a solo tipos RepositorioProyectos, cualquier cambio afectaba a controller
+
+//        private readonly IRepositorioProyectos repositorioProyectos;//Ahora con interfaces, el controller no sabe ni le importa a que clase sea, simplemente esta asociada a la interfaz. Entonces simplemente en Program.cs en el apartado de servicios  solo seria cambiar la linea de builder.Services.AddTransient<IRepositorioProyectos, RepositorioProyectos>(); por la nueva referencia al nuevo método de la clase en cuestion
+        //using Portafolio.Servicios;
+
+        //var builder = WebApplication.CreateBuilder(args);
+
+        //builder.Services.AddControllersWithViews();
+
+        //builder.Services.AddTransient<IRepositorioProyectos, RepositorioProyectos>();
+
+
+
+//A simple vista pareciera que no cambio nada el usar inyeccion de depdencias solo con repositorio directamente a la clase que usar Inyeccion de dependencias con interfaces
+//Pero internatemente debemos enteder que ahora el controller no sabe que clases, no se preocupa por que clases estan usandose  o que directamente usara RepositorioProyectos.cs, sino que simplemente sabe que usa IRepositorioProyectos, ya esa es la que se encarga de orquestar que se esta usando.
+//Esto da una flexibilidad increible, porque si mañana yo creo otro reporitorio proyectos (que ahora si trabaje o se conecte a una base de datos), simplemente creamos dicha clase y  y simplemente hacemos referencia a dicha en Program.cs y con eso HomeController recibirá esa nueva instancia que una clase implementa la interfaz IRepositoryProyectos
+//Esto se llama principio de inversion de dependencias.
+//Ahora, de esta forma, las clases como HomeController no depende de otras clases sino que depende de tipos abstractos como clases abstractas o interfaces en nuestro caso. Esto permite la flexibilidad de poder cambiar en tiempo de ejecucion la implementacion en app proh

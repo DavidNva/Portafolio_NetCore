@@ -2,6 +2,8 @@
 
 namespace Portafolio.Servicios
 {
+    //una interfaz es como un contrato que nos obliga a implementar ciertos metodos de una clase
+    //podemos utilizar inyeccion de dependencias con esas interfaces para asi poder tener flexibilidad en que clases servidas a traves de la inyeccion de dependencias
     public interface IRepositorioProyectos
     {
         List<Proyecto> ObtenerProyectos();
