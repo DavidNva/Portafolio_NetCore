@@ -1,11 +1,47 @@
-﻿@model string 
+﻿@model Persona 
 @* desde el controller a esta vista como string *@
 @{
-    ViewData["Title"] = "Home Page";
+    // dentro de aqui yo puedo colocar codigo de c#, en teoria estariamos usando razor
+    ViewData["Title"] = "Página Principal";
+    string ConvertirEnMayusculas(string valor)
+    {
+        return valor.ToUpper() + " DDD";
+    }
+
+    DateTime hoy = DateTime.Now;//Podemos crear variablees, comentar como en c#, etc.
+
+    var nombres = new List<string>() { "Carlos", "Juan","Pedro","Laura" };
 }
 
+
 <div class="text-center">
-    <h1 class="display-4">Soy @Model @ViewBag.Nombre. Edad: @ViewBag.Edad</h1>
+
+    @foreach (var nombre in nombres)
+    {
+        <ul>@nombre</ul>
+        //cada ves que usemos razor, usaremos el @ de esta forma funciona como si usaramos c# 
+    }
+    
+    @*  en este caso, como el model Persona, es una clase con tipo de datos, en este caso string para nombre e int para edad. 
+    y ademas identificadores de estos, si comentemos un error de sintaxtis, 
+    por ejemplo en lguar de colocar Nombre colocamos Nombres, nos marcaria error de sintaxis.*@
+    <h1 class="display-4">Soy @Model.Nombre  Edad: (@Model.Edad)</h1>
+    <h1 class="display-4">Soy @Model.Nombre.ToUpper()  Edad: (@Model.Edad)</h1>
+    @*     este es un ejemplo usando en teoria la funciona que acabamos de declarar arriba*@
+    <h1 class="display-4">Soy @ConvertirEnMayusculas(@Model.Nombre)  Edad: (@Model.Edad)</h1> 
+
+    <h4>Hoy:  @hoy.ToString()</h4>
+
+    @* MAS EJEMPLOS USANDO FUNCIONALDIADES DENTRO DE LA VISTA CON CODIGO C# *@
+    @if (Model.Edad >= 18)
+    {
+        <h4>Eres mayor de edad, puedes pasar <button>Entrar</button> </h4>
+    }
+    else
+    {
+        <h4>Eres menor de edad, no puedes pasar</h4>
+    }
+
    @*  el Model (en mayuscula) sirve para accder al valor del modelo *@
     <h2>Soy un desarrollador full stack especializado en tecnologías .NET y JavaScript.</h2>
     <img
