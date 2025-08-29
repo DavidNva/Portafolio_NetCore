@@ -7,7 +7,7 @@ namespace Portafolio.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> _logger; 
         //private readonly RepositorioProyectos repositorioProyectos;//Inyeccion de dependencias sin interfaces
         private readonly IRepositorioProyectos repositorioProyectos;//Inyección de dependencias con interfaces
 
@@ -19,6 +19,12 @@ namespace Portafolio.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogTrace("Este es un mensaje de log trace");
+            _logger.LogDebug("Este es un mensaje de log debug ");
+            _logger.LogInformation("Este es un mensaje de log information");
+            _logger.LogWarning("Este es un mensaje de log warning");
+            _logger.LogError("Este es un mensaje de Error");
+            _logger.LogCritical("Este es un mensaje de Critical");
             var proyectos = repositorioProyectos.ObtenerProyectos().Take(3).ToList();
             var modelo = new HomeIndexViewModel() { Proyectos = proyectos };
             return View(modelo);
