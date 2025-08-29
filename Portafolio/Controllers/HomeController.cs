@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Portafolio.Models;
 using Portafolio.Servicios;
 using System.Diagnostics;
+using System.Configuration;
 
 namespace Portafolio.Controllers
 {
@@ -9,23 +10,28 @@ namespace Portafolio.Controllers
     {
         private readonly ILogger<HomeController> _logger; 
         //private readonly RepositorioProyectos repositorioProyectos;//Inyeccion de dependencias sin interfaces
-        private readonly IRepositorioProyectos repositorioProyectos;//Inyección de dependencias con interfaces
+        private readonly IRepositorioProyectos _repositorioProyectos;//Inyección de dependencias con interfaces
+        private readonly IConfiguration _configuration;
 
-        public HomeController(ILogger<HomeController> logger, IRepositorioProyectos repositorioProyectos)
+        public HomeController(ILogger<HomeController> logger, IRepositorioProyectos repositorioProyectos, IConfiguration configuration)
         {
             _logger = logger;
-            this.repositorioProyectos = repositorioProyectos;
+            _repositorioProyectos = repositorioProyectos;
+            _configuration = configuration;
+            
         }
 
         public IActionResult Index()
         {
+            var apellido = _configuration.GetValue<string>("Apellido");
+
             _logger.LogTrace("Este es un mensaje de log trace");
             _logger.LogDebug("Este es un mensaje de log debug ");
             _logger.LogInformation("Este es un mensaje de log information");
             _logger.LogWarning("Este es un mensaje de log warning");
             _logger.LogError("Este es un mensaje de Error");
-            _logger.LogCritical("Este es un mensaje de Critical");
-            var proyectos = repositorioProyectos.ObtenerProyectos().Take(3).ToList();
+            _logger.LogCritical($"Este es un mensaje de Critical {apellido}");
+            var proyectos = _repositorioProyectos.ObtenerProyectos().Take(3).ToList();
             var modelo = new HomeIndexViewModel() { Proyectos = proyectos };
             return View(modelo);
         }
